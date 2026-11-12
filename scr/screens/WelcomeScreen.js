@@ -11,7 +11,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 
-const LARANJA = '#FF6600';
+const ORANGE = '#FF6500';
 
 export default function WelcomeScreen({
   onLogin,
@@ -19,108 +19,116 @@ export default function WelcomeScreen({
   onContinueGuest,
 }) {
   const { width, height } = useWindowDimensions();
-  const pequeno = height < 720;
-  const desktop = width >= 750;
+  const isSmallScreen = width < 600;
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
+    <ImageBackground
+      source={{
+        uri: 'https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=2000&q=90',
+      }}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <StatusBar barStyle="light-content" backgroundColor="#17110D" />
 
-      <ImageBackground
-        source={{
-          uri: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1800&q=85',
-        }}
-        style={styles.background}
-        resizeMode="cover"
+      <View style={styles.overlay} />
+
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContent,
+          { minHeight: height },
+        ]}
+        showsVerticalScrollIndicator={false}
       >
-        <View style={styles.overlay} />
-
-        <ScrollView
-          contentContainerStyle={[
-            styles.content,
-            {
-              minHeight: height,
-              paddingHorizontal: desktop ? 48 : 24,
-              paddingVertical: pequeno ? 22 : 30,
-            },
+        <View
+          style={[
+            styles.container,
+            { width: isSmallScreen ? '90%' : 560 },
           ]}
-          showsVerticalScrollIndicator={false}
         >
-          <View style={styles.brand}>
-            <View style={styles.logo}>
-              <Text style={styles.logoText}>🍕</Text>
+          {/* LOGO */}
+          <View style={styles.logoArea}>
+            <View style={styles.logoCircle}>
+              <Text style={styles.logoEmoji}>🍕</Text>
             </View>
 
-            <Text style={styles.brandName}>
-              d'Lucas <Text style={{ color: LARANJA }}>Delivery</Text>
+            <Text style={styles.brand}>
+              d'Lucas <Text style={styles.brandOrange}>Delivery</Text>
             </Text>
 
-            <Text style={styles.tagline}>
+            <Text style={styles.brandSubtitle}>
               PIZZAS FEITAS PARA VOCÊ
             </Text>
           </View>
 
-          <View
-            style={[
-              styles.hero,
-              { width: '100%', maxWidth: desktop ? 560 : 460 },
-            ]}
-          >
-            <View style={styles.badge}>
-              <View style={styles.dot} />
-              <Text style={styles.badgeText}>
+          {/* APRESENTAÇÃO */}
+          <View style={styles.hero}>
+            <View style={styles.tag}>
+              <View style={styles.tagDot} />
+              <Text style={styles.tagText}>
                 SEU MOMENTO MERECE MAIS SABOR
               </Text>
-            </View><br></br>
+            </View>
+
+            <Text style={styles.title}>
+    {'\n'}
+  <Text style={styles.titleOrange}></Text>
+</Text>
 
             <Text
               style={[
                 styles.title,
-                { fontSize: desktop ? 49 : pequeno ? 34 : 40 },
+                { fontSize: isSmallScreen ? 36 : 48 },
               ]}
             >
-              A melhor pizza
-            </Text> <br></br> <br></br>
+              
+              
 
-            <Text
-              style={[
-                styles.title,
-                styles.titleSecond,
-                { fontSize: desktop ? 49 : pequeno ? 34 : 40 },
-              ]}
-            >
-              chega até <Text style={styles.orange}>você.</Text>
+              Aproveite cada{' '}
+              <Text style={styles.titleOrange}>pedaço!</Text>
+
+              
+
+
+
             </Text>
-            <br></br>
+            
+            <Text style={styles.title}>
+    {'\n'}
+  <Text style={styles.titleOrange}></Text>
+</Text>
+
 
             <Text style={styles.description}>
-              Sabor irresistível, ingredientes selecionados
-              e aquela pizza que transforma qualquer
-              momento em algo especial.
+              Sabor irresistível, ingredientes selecionados e
+              aquela pizza que transforma qualquer momento
+              em algo especial.
             </Text>
+            
 
-            <View style={styles.highlights}>
-              <Text style={styles.highlight}>🔥  Muito sabor</Text>
-              <Text style={styles.highlight}>🛵  Na sua porta</Text>
+            <View style={styles.features}>
+              <Text style={styles.feature}>🔥 Muito sabor</Text>
+              <Text style={styles.feature}>🛵 Na sua porta</Text>
             </View>
           </View>
 
-          <View style={[styles.actions, { maxWidth: 460 }]}>
+          {/* BOTÕES */}
+          <View style={styles.actions}>
             <TouchableOpacity
-              style={styles.primaryButton}
+              style={styles.loginButton}
               onPress={onLogin}
-              activeOpacity={0.8}
+              activeOpacity={0.85}
             >
-              <Text style={styles.primaryText}>Entrar na conta</Text>
+              <Text style={styles.loginText}>Entrar na conta</Text>
               <Text style={styles.arrow}>→</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.secondaryButton}
+              style={styles.registerButton}
               onPress={onRegister}
-              activeOpacity={0.8}
+              activeOpacity={0.85}
             >
-              <Text style={styles.secondaryText}>Criar conta</Text>
+              <Text style={styles.registerText}>Criar conta</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -132,184 +140,209 @@ export default function WelcomeScreen({
                 Continuar sem conta
               </Text>
             </TouchableOpacity>
-
-            <Text style={styles.footer}>
-              FEITO COM AMOR, SERVIDO COM SABOR
-            </Text>
           </View>
-        </ScrollView>
-      </ImageBackground>
-    </View>
+
+          <Text style={styles.footer}>
+            FEITO COM AMOR. SERVIDO COM SABOR
+          </Text>
+        </View>
+      </ScrollView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#121212',
-  },
   background: {
     flex: 1,
+    backgroundColor: '#17110D',
   },
+
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.70)',
+    backgroundColor: 'rgba(0,0,0,0.66)',
   },
-  content: {
+
+  scrollContent: {
     flexGrow: 1,
-    alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  brand: {
     alignItems: 'center',
-    marginBottom: 28,
+    paddingVertical: 32,
   },
-  logo: {
-    width: 66,
-    height: 66,
-    borderRadius: 33,
-    backgroundColor: LARANJA,
+
+  container: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    alignSelf: 'center',
+    paddingVertical: 0,
+  },
+
+  logoArea: {
+    alignItems: 'center',
+    marginBottom: 35,
+  },
+
+  logoCircle: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: ORANGE,
+    borderWidth: 2,
+    borderColor: '#FFB16D',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 12,
-    borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.35)',
+    marginBottom: 15,
   },
-  logoText: {
-    fontSize: 35,
+
+  logoEmoji: {
+    fontSize: 36,
   },
-  brandName: {
+
+  brand: {
     color: '#FFFFFF',
     fontSize: 28,
     fontWeight: '900',
-    letterSpacing: -0.8,
+    letterSpacing: -1,
   },
-  tagline: {
-    color: '#DDDDDD',
-    fontSize: 9,
+
+  brandOrange: {
+    color: ORANGE,
+  },
+
+  brandSubtitle: {
+    color: '#E6E0DC',
+    fontSize: 10,
     fontWeight: '800',
-    letterSpacing: 2.5,
-    marginTop: 8,
+    letterSpacing: 3,
+    marginTop: 10,
   },
+
   hero: {
-    alignSelf: 'center',
-    marginBottom: 28,
+    marginBottom: 40,
   },
-  badge: {
-    alignSelf: 'flex-start',
+
+  tag: {
     flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'flex-start',
     borderWidth: 1,
-    borderColor: 'rgba(255,102,0,0.65)',
-    backgroundColor: 'rgba(255,102,0,0.15)',
+    borderColor: ORANGE,
+    backgroundColor: 'rgba(255,101,0,0.14)',
     borderRadius: 30,
-    paddingHorizontal: 12,
+    paddingHorizontal: 15,
     paddingVertical: 10,
-    marginBottom: 20,
+    marginBottom: 16,
   },
-  dot: {
-    width: 7,
-    height: 7,
+
+  tagDot: {
+    width: 8,
+    height: 8,
     borderRadius: 4,
-    backgroundColor: LARANJA,
-    marginRight: 8,
+    backgroundColor: ORANGE,
+    marginRight: 9,
   },
-  badgeText: {
-    color: '#FFE0CD',
-    fontSize: 9,
+
+  tagText: {
+    color: '#FFFFFF',
+    fontSize: 10,
     fontWeight: '900',
-    letterSpacing: 0.6,
+    letterSpacing: 0.7,
   },
+
   title: {
     color: '#FFFFFF',
-    fontFamily: 'Georgia',
-    fontWeight: 'bold',
-    lineHeight: 1.25,
-    includeFontPadding: true,
-  },
-  titleSecond: {
-    marginTop: 0,
-  },
-  orange: {
-    color: LARANJA,
-  },
-  description: {
-    color: '#E2E2E2',
-    fontSize: 15,
-    lineHeight: 24,
-    marginTop: 18,
-    maxWidth: 390,
-  },
-  highlights: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 22,
-    marginTop: 23,
-  },
-  highlight: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '800',
-  },
-  actions: {
-    width: '100%',
-    alignSelf: 'center',
-  },
-  primaryButton: {
-    minHeight: 60,
-    borderRadius: 16,
-    backgroundColor: LARANJA,
-    paddingHorizontal: 22,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    fontWeight: '900',
+    lineHeight: 1.2,
+    letterSpacing: -1.5,
     marginBottom: 12,
   },
-  primaryText: {
-    flex: 1,
+
+  titleOrange: {
+    color: ORANGE,
+  },
+
+  description: {
+    color: '#F0EBE7',
+    fontSize: 16,
+    lineHeight: 25,
+    maxWidth: 480,
+  },
+
+  features: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 26,
+    gap: 24,
+  },
+
+  feature: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '800',
+  },
+
+  actions: {
+    width: '100%',
+    gap: 12,
+  },
+
+  loginButton: {
+    height: 66,
+    backgroundColor: ORANGE,
+    borderRadius: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    elevation: 5,
+  },
+
+  loginText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '900',
-    textAlign: 'center',
-    marginLeft: 22,
   },
+
   arrow: {
     color: '#FFFFFF',
-    fontSize: 25,
+    fontSize: 26,
+    position: 'absolute',
+    right: 24,
+    top: 15,
   },
-  secondaryButton: {
-    minHeight: 57,
-    borderRadius: 16,
-    backgroundColor: 'rgba(35,35,35,0.96)',
+
+  registerButton: {
+    height: 62,
+    backgroundColor: 'rgba(35,35,35,0.95)',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.25)',
+    borderColor: '#555555',
+    borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 8,
   },
-  secondaryText: {
+
+  registerText: {
     color: '#FFFFFF',
-    fontSize: 15,
-    fontWeight: '800',
+    fontSize: 16,
+    fontWeight: '900',
   },
+
   guestButton: {
-    minHeight: 44,
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingVertical: 13,
   },
+
   guestText: {
     color: '#FFFFFF',
-    fontSize: 13,
-    fontWeight: '700',
+    fontSize: 14,
+    fontWeight: '800',
     textDecorationLine: 'underline',
   },
+
   footer: {
-    color: '#BBBBBB',
-    fontSize: 9,
-    fontWeight: '800',
-    letterSpacing: 1.5,
+    color: '#BDB5AF',
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 1.8,
     textAlign: 'center',
-    marginTop: 12,
-    marginBottom: 4,
+    marginTop: 18,
   },
 });
